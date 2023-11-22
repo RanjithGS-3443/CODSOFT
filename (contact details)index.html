@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Management System</title>
+</head>
+<body>
+    <h1>Contact Management System</h1>
+
+    <form method="post" action="{{ url_for('search') }}">
+        <label for="search_term">Search:</label>
+        <input type="text" name="search_term" id="search_term" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Contact List</h2>
+    <ul>
+        {% for contact in contacts %}
+            <li>
+                {{ contact['name'] }} - {{ contact['phone'] }}
+                <a href="{{ url_for('update_contact', contact_id=contact['id']) }}">Edit</a>
+                <a href="{{ url_for('delete_contact', contact_id=contact['id']) }}" onclick="return confirm('Are you sure you want to delete this contact?')">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if search_term %}
+        <p>Search results for '{{ search_term }}'</p>
+    {% endif %}
+
+    <a href="{{ url_for('add_contact') }}">Add Contact</a>
+</body>
+</html>
